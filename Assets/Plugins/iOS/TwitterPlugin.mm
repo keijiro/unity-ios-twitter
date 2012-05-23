@@ -1,7 +1,6 @@
 #import <Foundation/Foundation.h>
 #import <Twitter/TWTweetComposeViewController.h>
 
-// Root view controller of Unity screen.
 extern UIViewController *UnityGetGLViewController();
 
 #pragma mark Plug-in Function

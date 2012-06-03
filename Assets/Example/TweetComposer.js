@@ -3,7 +3,7 @@
 private var availability : boolean;
 
 function Start() {
-    availability = TwitterPlugin.IsAvailable();
+    availability = TwitterPlugin.isAvailable;
 }
 
 function OnGUI() {

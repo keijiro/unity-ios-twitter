@@ -1,22 +1,18 @@
 #import <Foundation/Foundation.h>
-#import <Twitter/TWTweetComposeViewController.h>
+#import <Social/Social.h>
 
 extern UIViewController *UnityGetGLViewController();
 
 #pragma mark Plug-in Function
 
 extern "C" bool _TwitterIsAvailable() {
-    if (NSClassFromString(@"TWRequest") != nil) {
-        return [TWTweetComposeViewController canSendTweet] == YES;
-    } else {
-        return false;
-    }
+    return [SLComposeViewController isAvailableForServiceType:SLServiceTypeTwitter];
 }
 
 extern "C" void _TwitterComposeTweet(const char *initialText, const char *url, const char *screenshotPath) {
     UIViewController *rootViewController = UnityGetGLViewController();
     
-    TWTweetComposeViewController* controller = [[TWTweetComposeViewController alloc] init];
+    SLComposeViewController* controller = [SLComposeViewController composeViewControllerForServiceType:SLServiceTypeTwitter];
     
     if (initialText != nil) {
         [controller setInitialText:[NSString stringWithUTF8String:initialText]];
@@ -29,10 +25,5 @@ extern "C" void _TwitterComposeTweet(const char *initialText, const char *url, c
 
     if (url != nil) [controller addURL:[NSURL URLWithString:[NSString stringWithUTF8String:url]]];
     
-    controller.completionHandler = ^(TWTweetComposeViewControllerResult result) {
-        [rootViewController dismissModalViewControllerAnimated:YES];
-    };
-    
-    [rootViewController presentModalViewController:controller animated:YES];
-    [controller release];
+    [rootViewController presentViewController:controller animated:YES completion:NULL];
 }
